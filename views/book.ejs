@@ -1,0 +1,28 @@
+<%- include('partials/header'); -%>
+<div class="container content">
+  <form action="/books/search">
+  <div class="input-group mb-3 rounded w-50">
+      <input type="text" class="form-control rounded" placeholder="Search" aria-label="Search" name="search"/>
+      <button id="search-button" type="submit" class="btn btn-primary">
+        <i class="fas fa-search"></i>
+      </button>
+    </div>
+  </form>
+  <div class="row">
+    <% data.forEach((book)=>{ %>
+    <div class="col-3">
+      <div class="card" style="width: 18rem;">
+        <img
+          src="<%= book.imageLink %>"
+          class="card-img-top card-img-book" alt="...">
+        <div class="card-body">
+          <h5 class="card-title"><%= book.title %></h5>
+          <p class="card-text"><%= book.description.substring(0,100) + '...' %></p>
+          <a href="/books/<%= book.bookID %>" class="btn btn-primary">Details</a>
+        </div>
+      </div>
+    </div>
+    <%}); %>
+  </div>
+</div>
+<%- include('partials/footer'); -%>

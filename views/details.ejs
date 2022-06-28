@@ -1,0 +1,26 @@
+<%- include('partials/header'); -%>
+<div class="content container">
+    <h1 class="my-4"><%= book.title %></h1>
+    <div class="row">
+
+        <div class="col-md-8">
+            <img class="img-fluid" src="<%= book.imageLink %>" alt="">
+        </div>
+
+        <div class="col-md-4">
+        <form action="/books/edit" method="post">
+            <small>Author: <%= book.author %></small>
+            <h3 class="my-3">Book Description</h3>
+            <p><%= book.description %></p>
+            <div class="form-group col-md-6">
+                <label for="inputStatus">Quantity</label>
+                <input type="number" class="form-control" value="<%= book.numOfCopies %>" name="numOfCopies" min="0">
+            </div>
+            <input type="text" name="bookID" id="" value="<%= book.bookID %>" class="d-none" >
+        <button type="submit" class="btn btn-primary mt-4">Save</button>
+
+        </div>
+
+    </div>
+</div>
+<%- include('partials/footer'); -%>
