@@ -7,7 +7,7 @@ class AuthController {
         try{
             const user = await User.findByPk(req.body.email);
             if(user){
-                return res.send('user already existed');
+                return res.status(400).json('user already existed');
             } else{
 
                 const salt = await bcrypt.genSalt(10);
@@ -16,7 +16,7 @@ class AuthController {
                     email: req.body.email,
                     password: hashed
                 })
-                res.send('created a new user!');
+                res.status(200).json('created a new user!');
             }
 
         } catch(err){
@@ -40,13 +40,18 @@ class AuthController {
             const cookieExpiresIn = process.env.JWT_COOKIE_EXPIRES_IN? process.env.JWT_COOKIE_EXPIRES_IN : 3;
             const user = await User.findByPk(req.body.email);
             console.log(user);
-            if(!user) return res.send('Wrong username!');
+            if(!user) return res.status(400).json('Wrong username!');
             const isValidPassword = await bcrypt.compare(req.body.password, user.getPassword());
             if(!isValidPassword) return res.send('Wrong password!');
             if(isValidPassword && user) {
                 const token = AuthController.generateAccessToken(user);
                 // console.log(token);
                 res.cookie('token', token,{
+                    httpOnly: true,
+                    secure: false,
+                    expires: new Date(Date.now() + (cookieExpiresIn as number)*60*60*1000) //3 hours
+                })
+                res.cookie('user', user,{
                     httpOnly: true,
                     secure: false,
                     expires: new Date(Date.now() + (cookieExpiresIn as number)*60*60*1000) //3 hours
@@ -60,6 +65,7 @@ class AuthController {
 
     logout(req: Request, res: Response){
         res.clearCookie('token');
+        res.clearCookie('user');
         res.redirect('login');
     }
 

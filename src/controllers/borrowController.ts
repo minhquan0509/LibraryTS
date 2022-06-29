@@ -11,7 +11,8 @@ class BorrowController {
             console.log(req.user.isAdmin);
             
             const isAdmin = req.user.isAdmin;
-            if(isAdmin){
+            // const isAdmin = req.cookies.user.isAdmin;
+            if(isAdmin === true){
 
                 const loans = await Loan.findAll();
                 const users = await User.findAll();
@@ -27,7 +28,8 @@ class BorrowController {
                 return res.render('borrow',{loans, isAdmin: false, users : [], books : []});
             }
         } catch(err){
-            res.send(err);
+            console.log(err);
+            res.status(400).json('There was an error');
         }
     }
 
@@ -59,7 +61,8 @@ class BorrowController {
                 res.redirect('/borrow');
             }
         } catch (error) {
-            res.send(error);
+            console.log(error);
+            res.status(400).json('There was an error');
         }
     }
 
@@ -72,9 +75,10 @@ class BorrowController {
             }
             if(req.body.status === 'done')
             await db.sequelize.query(`UPDATE books set numOfCopies = numOfCopies + 1 where bookID = ${req.body.bookID}`);
-            res.status(200);
+            res.status(200).json('Edited');
         } catch (error) {
-            res.send(error);
+            console.log(error);
+            res.status(400).json('There was an error');
         }
     }
 
@@ -95,9 +99,11 @@ class BorrowController {
                 }
             });
         } catch (error) {
-            res.send(error);
+            console.log(error);
+            res.status(400).json('There was an error');
+
         }
-        res.redirect('/borrow');
+        res.status(200).redirect('/borrow');
     }
 }
 

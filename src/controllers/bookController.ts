@@ -18,8 +18,14 @@ class bookController{
 
     public render = async (req: Request, res: Response) => {
         try {
+            let isAdmin;
+            if(req.cookies.user.isAdmin === true){
+                isAdmin = true;
+            } else{
+                isAdmin = false;
+            }
             let book = await Book.findByPk(req.params.bookID);
-            res.render('details',{book});
+            res.render('details',{book, isAdmin});
         } catch (error) {
             res.send(error);
         }

@@ -17,7 +17,9 @@
                 <input type="number" class="form-control" value="<%= book.numOfCopies %>" name="numOfCopies" min="0">
             </div>
             <input type="text" name="bookID" id="" value="<%= book.bookID %>" class="d-none" >
-        <button type="submit" class="btn btn-primary mt-4">Save</button>
+            <% if(isAdmin === true ){ %>
+            <button type="submit" class="btn btn-primary mt-4">Save</button>
+            <%}%>
 
         </div>
 
