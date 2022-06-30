@@ -1,5 +1,14 @@
-import express, {Application, Request, Response} from 'express';
-import { Sequelize, DataTypes, Model, Op } from "sequelize";
+import express, {
+    Application,
+    Request,
+    Response
+} from 'express';
+import {
+    Sequelize,
+    DataTypes,
+    Model,
+    Op
+} from "sequelize";
 import db from "../config/db"
 import Book from '../models/Book'
 import Loan from '../models/Loan'
@@ -7,27 +16,36 @@ import User from '../models/User'
 
 class BorrowController {
     borrow = async (req: Request, res: Response) => {
-        try{
+        try {
             console.log(req.user.isAdmin);
-            
+
             const isAdmin = req.user.isAdmin;
             // const isAdmin = req.cookies.user.isAdmin;
-            if(isAdmin === true){
+            if (isAdmin === true) {
 
                 const loans = await Loan.findAll();
                 const users = await User.findAll();
                 const books = await Book.findAll();
-                return res.render('borrow',{loans, isAdmin, users, books});
-            }
-            else{
+                return res.render('borrow', {
+                    loans,
+                    isAdmin,
+                    users,
+                    books
+                });
+            } else {
                 const loans = await Loan.findAll({
-                    where:{
+                    where: {
                         userEmail: req.user.email
                     }
                 });
-                return res.render('borrow',{loans, isAdmin: false, users : [], books : []});
+                return res.render('borrow', {
+                    loans,
+                    isAdmin: false,
+                    users: [],
+                    books: []
+                });
             }
-        } catch(err){
+        } catch (err) {
             console.log(err);
             res.status(400).json('There was an error');
         }
@@ -40,12 +58,13 @@ class BorrowController {
                     bookID: req.body.bookID
                 }
             })
-            
+
             const quantity = book?.getNumOfCopies();
-            if(quantity === undefined) return res.json('There are some error');
-            if(quantity < 1){ return res.json('Out of stocked!')}
-            else{
-                
+            if (quantity === undefined) return res.json('There are some error');
+            if (quantity < 1) {
+                return res.json('Out of stocked!')
+            } else {
+
                 const loan = await Loan.create({
                     userEmail: req.body.email,
                     bookID: req.body.bookID,
@@ -68,13 +87,43 @@ class BorrowController {
 
     edit = async (req: Request, res: Response) => {
         try {
-            if(req.body.returnDate === null){
-                const loan = await db.sequelize.query(`UPDATE loans set issueDate = '${req.body.issueDate}', dueDate = '${req.body.dueDate}', returnDate = '${req.body.returnDate}', status = '${req.body.status}' where ID = ${req.body.ID}`);
-            } else{
+            // console.log(req.body.returnDate === '');
+
+            const oldLoan = await Loan.findOne({
+                where: {
+                    ID: req.body.ID
+                }
+            });
+            if (req.body.returnDate === '') {
                 const loan = await db.sequelize.query(`UPDATE loans set issueDate = '${req.body.issueDate}', dueDate = '${req.body.dueDate}', status = '${req.body.status}' where ID = ${req.body.ID}`);
+            } else {
+                await db.sequelize.query(`UPDATE loans set issueDate = '${req.body.issueDate}', dueDate = '${req.body.dueDate}', returnDate = '${req.body.returnDate}', status = '${req.body.status}' where ID = ${req.body.ID}`);
             }
-            if(req.body.status === 'done')
-            await db.sequelize.query(`UPDATE books set numOfCopies = numOfCopies + 1 where bookID = ${req.body.bookID}`);
+            const newLoan = new Loan({
+                ID: req.body.ID,
+                userEmail: req.body.userEmail,
+                bookID: req.body.bookID,
+                issueDate: req.body.issueDate,
+                dueDate: req.body.dueDate,
+                returnDate: req.body.returnDate,
+                status: req.body.status
+            })
+
+            // await oldLoan?.save();
+            console.log(oldLoan?.getStatus(), newLoan.getStatus());
+            // await db.sequelize.query(`UPDATE loans set issueDate = '${req.body.issueDate}', dueDate = '${req.body.dueDate}', returnDate = '${req.body.returnDate}', status = '${req.body.status}' where ID = ${req.body.ID}`);
+            if (oldLoan?.getStatus() === 'progressing' && newLoan.getStatus() === 'done') {
+                const book = await Book.findOne({
+                    where: {
+                        bookID: oldLoan.getBookID()
+                    }
+                })
+                await book?.returnBook();
+                await book?.save();
+            }
+
+            // await db.sequelize.query(`UPDATE books set numOfCopies = numOfCopies + 1 where bookID = ${req.body.bookID}`);
+
             res.status(200).json('Edited');
         } catch (error) {
             console.log(error);
@@ -86,7 +135,7 @@ class BorrowController {
         try {
             const loan = await Loan.findOne({
                 attributes: ['bookID'],
-                where:{
+                where: {
                     ID: req.params.loanID
                 }
             })
@@ -94,7 +143,7 @@ class BorrowController {
             console.log(bookID);
             await db.sequelize.query(`UPDATE books set numOfCopies = numOfCopies + 1 where bookID = ${bookID}`);
             await Loan.destroy({
-                where:{
+                where: {
                     ID: req.params.loanID
                 }
             });

@@ -15,7 +15,7 @@ class Loan extends Model{
     private declare issueDate: Date;
     private declare dueDate: Date;
     private declare returnDate: Date | null;
-    private declare status: Status;
+    private declare status: String;
 
     // constructor(){
     //     super()
@@ -25,6 +25,38 @@ class Loan extends Model{
     }
     public getBookID(){
         return this.bookID;
+    }
+
+    public getIssueDate(){
+        return this.issueDate;
+    }
+
+    public getDueDate(){
+        return this.dueDate;
+    }
+
+    public getReturnDate(){
+        return this.returnDate;
+    }
+
+    public getStatus(){
+        return this.status;
+    }
+
+    public setIssueDate(date: Date){
+        this.issueDate = date;
+    }
+
+    public setDueDate(date: Date){
+        this.dueDate = date;
+    }
+
+    public setReturnDate(date: Date | null){
+        this.returnDate = date;
+    }
+
+    public setStatus(status: String){
+        this.status = status
     }
     
 }
