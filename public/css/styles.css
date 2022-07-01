@@ -88,3 +88,7 @@ body{
     max-height: 200px;
     object-fit: contain;
 }
+
+html{
+    overflow-x: hidden;
+}

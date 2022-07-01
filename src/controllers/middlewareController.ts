@@ -1,41 +1,53 @@
-import {Application, Request, Response, NextFunction} from 'express';
-import jwt, {verify} from 'jsonwebtoken'
+import { Application, Request, Response, NextFunction } from 'express';
+import jwt, { verify } from 'jsonwebtoken'
 import User from '../models/User';
-class MiddlewareController{
-    verifyToken(req: Request, res: Response, next : NextFunction) {
+import db from '../config/db'
+import Person from '../models/Person';
+class MiddlewareController {
+    verifyToken(req: Request, res: Response, next: NextFunction) {
         const token = req.cookies.token;
         const secretKey = process.env.JWT_SECRET_KEY ? process.env.JWT_SECRET_KEY : ''
-        if(token){  //already logged in
+        if (token) {  //already logged in
 
             const accessToken = token;
-            verify(accessToken,secretKey, (err: any, user: any) => {
-                if(err) return res.status(403).json('Token is not valid');
+            verify(accessToken, secretKey, (err: any, user: any) => {
+                if (err) return res.status(403).json('Token is not valid');
                 req.user = user;
                 console.log(user);
-                next();
+                //Create new Class Person which is Admin or Normal user
+                db.sequelize.query(`select * from users where email='${req.user.email}'`).then((currentUser: any) => {
+                    currentUser = currentUser[0][0];
+                    if (!currentUser.isAdmin) {
+                        req.currentUser = new Person.NormalUser(currentUser.email, currentUser.password, currentUser.firstName, currentUser.lastName, currentUser.address, currentUser.phoneNumber);
+                    }
+                    else req.currentUser = new Person.Admin(currentUser.email, currentUser.password, currentUser.firstName, currentUser.lastName, currentUser.address, currentUser.phoneNumber);
+                    next();
+                })
+                    .catch((error: any) => { res.status(404).json({ message: "access Token fail...", error }) })
+                // next();
             })
         }
-        else{       //user not login yet
+        else {       //user not login yet
             next();
         }
     }
 
-    async verifyAdmin (req: Request, res: Response, next: NextFunction){
+    async verifyAdmin(req: Request, res: Response, next: NextFunction) {
         const user = await User.findOne({ where: { email: req.user.email } });
         // console.log(user);
-        if(user?.admin() === true){
+        if (user?.admin() === true) {
             next();
-        } else{
+        } else {
             return res.status(403).json('You are not allow to do that action');
         }
     }
 
-    requireLogin(req: Request, res: Response, next: NextFunction){
-        try{
-            if(req.cookies.user === undefined)
-            res.status(403).json('You are not logged in yet')
+    requireLogin(req: Request, res: Response, next: NextFunction) {
+        try {
+            if (req.cookies.user === undefined)
+                res.status(403).json('You are not logged in yet')
             else next();
-        } catch(error){
+        } catch (error) {
             console.log(error);
             res.status(400).json('There was an error')
         }

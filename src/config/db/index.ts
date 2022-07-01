@@ -1,20 +1,20 @@
-import {Sequelize} from "sequelize";
+import { Sequelize } from "sequelize";
 const sequelize = new Sequelize('test', 'root', '123456', {
-    host: 'localhost',
-    dialect: 'mysql'
-  });
+  host: 'localhost',
+  dialect: 'mysql'
+});
 
-async function connect(){
-    try {
-        await sequelize.authenticate();
-        console.log('Connection has been established successfully.');
-      } catch (error) {
-        console.error('Unable to connect to the database:', error);
-      }
+async function connect() {
+  try {
+    await sequelize.authenticate();
+    console.log('Connection has been established successfully.');
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+  }
 }
 const db = {
-    Sequelize,
-    sequelize,
-    connect 
+  Sequelize,
+  sequelize,
+  connect
 }
 export default db;
