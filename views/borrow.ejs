@@ -83,7 +83,7 @@
                 <td class="edit" id=""><input type="date" id="returnDate_<%= loan.ID %>" placeholder="Select date" name="returnDate" value="<%= loan.returnDate %>"></td>
                 <td class="edit">
                   <select class="form-select status-select" id="status_<%= loan.ID %>">
-                    <option selected><%= loan.status %></option>
+                    <option selected class="status"><%= loan.status %></option>
                     <option class="progressing" value="progressing">progressing</option>
                     <option class="done" value="done">done</option>
                     <option class="overdue" value="overdue">overdue</option>

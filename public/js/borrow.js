@@ -41,3 +41,10 @@ const saveButtons = document.querySelectorAll('.btn-save');
         )
       })
     })
+
+    const status = document.querySelectorAll('.status');
+    status.forEach((element) =>{
+      if(element.innerText === 'done'){
+        element.parentNode.setAttribute('disabled','true');
+      }
+    })
