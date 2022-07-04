@@ -156,4 +156,4 @@ class userController {
   };
 
 }
-module.exports = new userController;
+export = new userController;

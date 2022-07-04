@@ -1,9 +1,10 @@
 <%- include('partials/header'); -%>
-<p><%=loginUser.emailLogin%></p>
-<p><%=loginUser.isAdminLogin%></p>
+<!-- <p><%=loginUser.emailLogin%></p>
+<p><%=loginUser.isAdminLogin%></p> -->
 
 <% if (loginUser.isAdminLogin == true) { %>
-<div class="content container">
+  <div class="content container">
+  <h1>Users</h1>
   <form action="/user/email" method="post">
     <div class="input-group mb-3 rounded w-50">
       <input type="text" class="form-control rounded" placeholder="Search users information by email"
@@ -13,9 +14,8 @@
       </button>
     </div>
   </form>
-  <h1>Users</h1>
-  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#changePassword">
-    <i class="fa-solid fa-plus"></i> Change password
+  <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#changePassword">
+    <i class="fa-solid fa-key"></i> Change password
   </button>
   <!-- Modal -->
   <div class="modal fade" id="changePassword" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -39,19 +39,19 @@
             <div class="form-group">
               <label for="">Enter Your Current Password</label>
               <input type="password" class="form-control" id="" placeholder="Enter Your Current Password"
-                name="currentPassword" />
+                name="currentPassword" required />
             </div>
 
             <div class="form-group">
               <label for="">Enter Your New Password</label>
               <input type="password" class="form-control" id="" placeholder="Enter Your New Password"
-                name="newPassword" />
+                name="newPassword" required />
             </div>
 
             <div class="form-group">
               <label for="">Enter Your New Password Again</label>
               <input type="password" class="form-control" id="" placeholder="Enter Your New Password Again"
-                name="newPasswordAgain" />
+                name="newPasswordAgain" required />
             </div>
           </div>
           <div class="modal-footer border-top-0 d-flex justify-content-center">
@@ -108,7 +108,7 @@
             </div>
             <div class="form-group">
               <label for="">Enter Phone Number</label>
-              <input type="number" class="form-control" id="" placeholder="Enter Phone Number" name="phoneNumber" />
+              <input type="number" class="form-control" id="" placeholder="Enter Phone Number" name="phoneNumber" min="0"/>
             </div>
           </div>
           <div class="modal-footer border-top-0 d-flex justify-content-center">
