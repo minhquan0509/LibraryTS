@@ -8,13 +8,14 @@ import db from './config/db'
 
 const app = express();
 app.set('view engine', 'ejs');
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static('public'));
+app.use('/public/', express.static('./public'));
 
 db.connect();
 router.route(app);
 
 app.listen(3000, () => {
-    console.log('Server running');  
+    console.log('Server running');
 })
