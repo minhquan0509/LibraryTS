@@ -87,11 +87,11 @@ class Admin extends Person {
   }
 
   public getHomePageUser(req: Request) {
-    return db.sequelize.query("select email,firstName,lastName,address,phoneNumber,isAdmin from users");
+    return db.sequelize.query("select email,firstName,lastName,address,phoneNumber,isAdmin,avatar from users");
   }
 
   public getUsersByEmail(email: string) {
-    return db.sequelize.query(`select email,firstName,lastName,address,phoneNumber,isAdmin from users where email like "${email}"`);
+    return db.sequelize.query(`select email,firstName,lastName,address,phoneNumber,isAdmin,avatar from users where email like "${email}"`);
   }
   //OK
   public createNewUser(req: Request, password: string) {
@@ -124,7 +124,7 @@ class NormalUser extends Person {
   }
   //Override
   public getHomePageUser(req: Request) {
-    return db.sequelize.query(`select email,firstName,lastName,address,phoneNumber,isAdmin from users where email="${req.user.email}"`);
+    return db.sequelize.query(`select email,firstName,lastName,address,phoneNumber,isAdmin,avatar from users where email="${req.user.email}"`);
   }
 
   //Override

@@ -44,21 +44,27 @@ class userController {
     }
   }
 
-  getHomePageUser = (req: Request, res: Response) => {
+  getHomePageUser = async (req: Request, res: Response) => {
     // res.send(req.currentUser);
-    if (req.currentUser.getIsAdmin()) {
+    if (!req.currentUser) res.redirect('/auth/login');
+    else if (req.currentUser.getIsAdmin()) {
+
+      let userData1: any = await db.sequelize.query(`select email,firstName,lastName,address,phoneNumber,isAdmin,avatar from users where email="${req.user.email}"`);
+      userData1 = userData1[0][0];
 
       req.currentUser.getHomePageUser(req).then((userData: any[]) => {
-          userData = userData[1];
-          const loginUser = {
-            emailLogin: req.user.email,
-            isAdminLogin: req.user.isAdmin,
-          };
-          res.render("user.ejs", {
-            userData: userData,
-            loginUser: loginUser
-          });
-        })
+
+        userData = userData[1];
+        const loginUser = {
+          emailLogin: req.user.email,
+          isAdminLogin: req.user.isAdmin,
+        };
+        res.render("user.ejs", {
+          userData: userData,
+          loginUser: loginUser,
+          userData1: userData1
+        });
+      })
         .catch((err: any) => {
           res.status(400).json({
             message: "fail",
@@ -66,17 +72,17 @@ class userController {
         });
     } else {
       req.currentUser.getHomePageUser(req).then((userData: any) => {
-          userData = userData[1];
-          const loginUser = {
-            emailLogin: req.user.email,
-            isAdminLogin: req.user.isAdmin,
-          };
+        userData = userData[1];
+        const loginUser = {
+          emailLogin: req.user.email,
+          isAdminLogin: req.user.isAdmin,
+        };
 
-          res.render("userNotAdmin.ejs", {
-            userData: userData,
-            loginUser: loginUser
-          });
-        })
+        res.render("userNotAdmin.ejs", {
+          userData: userData,
+          loginUser: loginUser
+        });
+      })
         .catch((err: any) => {
           res.status(400).json({
             message: "fail",
@@ -137,7 +143,9 @@ class userController {
     }
   };
 
-  getUsersByEmail = (req: Request, res: Response) => {
+  getUsersByEmail = async (req: Request, res: Response) => {
+    let userData1: any = await db.sequelize.query(`select email,firstName,lastName,address,phoneNumber,isAdmin,avatar from users where email="${req.user.email}"`);
+    userData1 = userData1[0][0];
     req.currentUser.getUsersByEmail(req.body.emailSearch).then((userData: any) => {
       userData = userData[0];
       const loginUser = {
@@ -146,7 +154,8 @@ class userController {
       };
       res.render("user.ejs", {
         userData: userData,
-        loginUser: loginUser
+        loginUser: loginUser,
+        userData1
       });
     }).catch((err: any) => {
       res.status(400).json({

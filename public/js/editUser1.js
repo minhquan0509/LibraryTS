@@ -1,4 +1,4 @@
-const saveButtons = document.querySelectorAll(".btn-for-system");
+const saveButtons = document.querySelectorAll(".btn-save");
 console.log("SAVE BUTTON")
 console.log(saveButtons);
 saveButtons.forEach((btn) => {
@@ -6,14 +6,14 @@ saveButtons.forEach((btn) => {
     const email = btn.id.split("_")[1];
     console.log(`${email} from button`);
     const userInfo = {
-      userEmail: document.getElementById(`userEmail_${email}`).innerText,
+      userEmail: document.getElementById(`userEmail_${email}`).value,
       userFirstName: document.getElementById(`userFirstName_${email}`)
-        .innerText,
-      userLastName: document.getElementById(`userLastName_${email}`).innerText,
-      userAddress: document.getElementById(`userAddress_${email}`).innerText,
+        .value,
+      userLastName: document.getElementById(`userLastName_${email}`).value,
+      userAddress: document.getElementById(`userAddress_${email}`).value,
       userPhoneNumber: document.getElementById(`userPhoneNumber_${email}`)
-        .innerText,
-      userIsAdmin: document.getElementById(`userIsAdmin_${email}`).innerText,
+        .value,
+      userIsAdmin: document.getElementById(`userIsAdmin_${email}`).value,
     };
 
     console.log(userInfo);
