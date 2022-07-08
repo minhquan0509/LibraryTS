@@ -2,9 +2,11 @@ import { Sequelize, DataTypes, Model } from "sequelize";
 import db from "../config/db"
 
 class Book extends Model{
-    private declare bookID: number;
+    private declare ISBN: number;
     private declare title: string;
     private declare author: string;
+    private declare yearOfPublication: number;
+    private declare publisher: string;
     private declare description: string;
     private declare numOfCopies: number;
     private declare imageLink: string;
@@ -33,7 +35,7 @@ class Book extends Model{
 
 Book.init({
     // Model attributes are defined here
-    bookID:{
+    ISBN:{
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
@@ -43,6 +45,14 @@ Book.init({
         allowNull: false
     },
     author: {
+        type: DataTypes.STRING
+        // allowNull defaults to true
+    },
+    yearOfPublication: {
+        type: DataTypes.INTEGER
+        // allowNull defaults to true
+    },
+    publisher: {
         type: DataTypes.STRING
         // allowNull defaults to true
     },

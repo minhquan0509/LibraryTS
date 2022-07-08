@@ -8,7 +8,7 @@ class bookController{
             
             let data = await Book.findAll();
             // data.forEach((element: any) => console.log((element as Book).getTitle()));
-            // const book = new Book({bookID: 4, title: 'Tenki no ko', author: 'Shinkai Makoto', description: '', numOfCopies: 4, imageLink: ''})
+            // const book = new Book({ISBN: 4, title: 'Tenki no ko', author: 'Shinkai Makoto', description: '', numOfCopies: 4, imageLink: ''})
             
             res.render('book',{data: data});
         } catch (error) {
@@ -26,7 +26,7 @@ class bookController{
             } else isAdmin = false;
             // console.log('user is admin? ' + req.cookies.user.isAdmin);
             
-            let book = await Book.findByPk(req.params.bookID);
+            let book = await Book.findByPk(req.params.ISBN);
             res.render('details',{book, isAdmin});
         } catch (error) {
             res.send(error);
@@ -40,7 +40,7 @@ class bookController{
     public createBook = async (req: Request, res: Response) =>{
         try {     
             const book = await Book.create({
-                bookID: req.body.bookID,
+                ISBN: req.body.ISBN,
                 title: req.body.title,
                 author: req.body.author,
                 description: req.body.description,
@@ -95,8 +95,8 @@ class bookController{
     public edit = async(req: Request, res: Response) => {
         try {
             const numOfCopies = req.body.numOfCopies;
-            await db.sequelize.query(`UPDATE books set numOfCopies = ${numOfCopies} where bookID = ${req.body.bookID}`)
-            res.redirect(`/books/${req.body.bookID}`);
+            await db.sequelize.query(`UPDATE books set numOfCopies = ${numOfCopies} where ISBN = ${req.body.ISBN}`)
+            res.redirect(`/books/${req.body.ISBN}`);
         } catch (error) {
             res.send(error);
         }

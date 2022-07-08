@@ -11,7 +11,7 @@ enum Status{
 class Loan extends Model{
     private declare ID: number;
     private declare userEmail: string;
-    private declare bookID: number;
+    private declare ISBN: number;
     private declare issueDate: Date;
     private declare dueDate: Date;
     private declare returnDate: Date | null;
@@ -23,8 +23,8 @@ class Loan extends Model{
     public getUserEmail(){
         return this.userEmail;
     }
-    public getBookID(){
-        return this.bookID;
+    public getISBN(){
+        return this.ISBN;
     }
 
     public getIssueDate(){
@@ -72,7 +72,7 @@ Loan.init({
         type: DataTypes.STRING,
         allowNull: false,
     },
-    bookID:{
+    ISBN:{
         type: DataTypes.INTEGER,
     },
     issueDate: {
@@ -106,7 +106,7 @@ Loan.init({
     updatedAt: false,
 });
 
-Loan.belongsTo(Book, { foreignKey: 'bookID', foreignKeyConstraint: true });
+Loan.belongsTo(Book, { foreignKey: 'ISBN', foreignKeyConstraint: true });
 Loan.belongsTo(User, { foreignKey: 'userEmail', foreignKeyConstraint: true });
 
 export = Loan;

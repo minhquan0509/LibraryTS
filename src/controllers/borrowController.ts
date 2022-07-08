@@ -55,7 +55,7 @@ class BorrowController {
         try {
             const book = await Book.findOne({
                 where: {
-                    bookID: req.body.bookID
+                    ISBN: req.body.ISBN
                 }
             })
 
@@ -67,13 +67,13 @@ class BorrowController {
 
                 const loan = await Loan.create({
                     userEmail: req.body.email,
-                    bookID: req.body.bookID,
+                    ISBN: req.body.ISBN,
                     issueDate: req.body.issueDate,
                     dueDate: req.body.dueDate,
                     // returnDate: req.body.returnDate,
                     status: 'progressing'
                 })
-                // await db.sequelize.query(`UPDATE books set numOfCopies = numOfCopies - 1 where bookID = ${req.body.bookID}`)
+                // await db.sequelize.query(`UPDATE books set numOfCopies = numOfCopies - 1 where ISBN = ${req.body.ISBN}`)
                 book?.borrowBook();
 
                 await book?.save();
@@ -102,7 +102,7 @@ class BorrowController {
             const newLoan = new Loan({
                 ID: req.body.ID,
                 userEmail: req.body.userEmail,
-                bookID: req.body.bookID,
+                ISBN: req.body.ISBN,
                 issueDate: req.body.issueDate,
                 dueDate: req.body.dueDate,
                 returnDate: req.body.returnDate,
@@ -115,14 +115,14 @@ class BorrowController {
             if (oldLoan?.getStatus() === 'progressing' && newLoan.getStatus() === 'done') {
                 const book = await Book.findOne({
                     where: {
-                        bookID: oldLoan.getBookID()
+                        ISBN: oldLoan.getISBN()
                     }
                 })
                 await book?.returnBook();
                 await book?.save();
             }
 
-            // await db.sequelize.query(`UPDATE books set numOfCopies = numOfCopies + 1 where bookID = ${req.body.bookID}`);
+            // await db.sequelize.query(`UPDATE books set numOfCopies = numOfCopies + 1 where ISBN = ${req.body.ISBN}`);
 
             res.status(200).json('Edited');
         } catch (error) {
@@ -134,14 +134,14 @@ class BorrowController {
     delete = async (req: Request, res: Response) => {
         try {
             const loan = await Loan.findOne({
-                attributes: ['bookID'],
+                attributes: ['ISBN'],
                 where: {
                     ID: req.params.loanID
                 }
             })
-            const bookID = loan?.getBookID();
-            console.log(bookID);
-            await db.sequelize.query(`UPDATE books set numOfCopies = numOfCopies + 1 where bookID = ${bookID}`);
+            const ISBN = loan?.getISBN();
+            console.log(ISBN);
+            await db.sequelize.query(`UPDATE books set numOfCopies = numOfCopies + 1 where ISBN = ${ISBN}`);
             await Loan.destroy({
                 where: {
                     ID: req.params.loanID

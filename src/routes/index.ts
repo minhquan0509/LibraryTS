@@ -1,4 +1,4 @@
-import express, { Application } from 'express';
+import express, { Application, Request, Response } from 'express';
 const siteRouter = require('./site');
 const bookRouter = require('./book');
 const borrowRouter = require('./borrow');
@@ -14,6 +14,9 @@ class Router {
         app.use('/user', userRouter);
         app.use('/author', authorRouter);
         app.use('/', siteRouter);
+        app.use('*', (req: Request, res: Response) =>{
+            res.render('404notFound');
+        });
     }
 }
 

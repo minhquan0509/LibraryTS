@@ -3,20 +3,32 @@
     <h1 class="my-4"><%= book.title %></h1>
     <div class="row">
 
-        <div class="col-md-8">
+        <div class="col-md-6">
             <img class="img-fluid" src="<%= book.imageLink %>" alt="">
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-6">
         <form action="/books/edit" method="post">
             <small>Author: <a href="/author/<%= book.author %>"><%= book.author %></a></small>
             <h3 class="my-3">Book Description</h3>
             <p><%= book.description %></p>
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                      <th scope="row">Year of Publication:</th>
+                      <td><%= book.yearOfPublication %></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Publisher:</th>
+                        <td><%= book.publisher %></td>
+                      </tr>
+                </tbody>
+            </table>
             <div class="form-group col-md-6">
                 <label for="inputStatus">Quantity</label>
                 <input type="number" class="form-control" value="<%= book.numOfCopies %>" name="numOfCopies" min="0">
             </div>
-            <input type="text" name="bookID" id="" value="<%= book.bookID %>" class="d-none" >
+            <input type="text" name="ISBN" id="" value="<%= book.ISBN %>" class="d-none" >
             <% if(isAdmin === true ){ %>
             <button type="submit" class="btn btn-primary mt-4">Save</button>
             <%}%>

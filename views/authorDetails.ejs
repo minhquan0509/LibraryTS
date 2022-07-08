@@ -3,7 +3,7 @@
     <h1 class="my-4"><%= author.authorName %></h1>
     <div class="row">
 
-        <div class="col-md-8">
+        <div class="col-md-6">
             <img class="img-fluid" src="" alt="">
             <small>Author image</small>
             <p>Author's bio</p>
@@ -13,9 +13,22 @@
             <h3 class="my-3">Author of books:</h3>
             <ul class="list-group">
             <% books.forEach((book)=>{ %>
-                <li class="list-group-item text-primary"><a href="/books/<%= book.bookID%>"><%= book.title%></a></li>
+                <li class="list-group-item text-primary"><a href="/books/<%= book.ISBN%>"><%= book.title%></a></li>
             <%}); %>
             </ul>
+            <h5 class="mt-4">Basic information:</h5>
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                      <th scope="row">Nationality:</th>
+                      <td><%= author.nationality %></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">D.O.B:</th>
+                        <td><%= author.DOB %></td>
+                      </tr>
+                </tbody>
+            </table>
         </div>
 
     </div>

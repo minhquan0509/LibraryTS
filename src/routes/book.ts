@@ -7,7 +7,7 @@ router.get('/create', middlewareController.verifyToken , middlewareController.re
 router.post('/create', middlewareController.verifyToken ,middlewareController.requireLogin,middlewareController.verifyAdmin ,bookController.createBook);
 router.post('/edit', middlewareController.verifyToken ,middlewareController.requireLogin,middlewareController.verifyAdmin ,bookController.edit);
 router.get('/search' ,bookController.searchBook);
-router.get('/:bookID', bookController.render);
+router.get('/:ISBN', bookController.render);
 router.get('/', bookController.books);
 
 export = router;
