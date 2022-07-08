@@ -1,0 +1,23 @@
+<%- include('partials/header'); -%>
+<div class="content container">
+    <h1 class="my-4"><%= author.authorName %></h1>
+    <div class="row">
+
+        <div class="col-md-8">
+            <img class="img-fluid" src="" alt="">
+            <small>Author image</small>
+            <p>Author's bio</p>
+        </div>
+
+        <div class="col-md-4">
+            <h3 class="my-3">Author of books:</h3>
+            <ul class="list-group">
+            <% books.forEach((book)=>{ %>
+                <li class="list-group-item text-primary"><a href="/books/<%= book.bookID%>"><%= book.title%></a></li>
+            <%}); %>
+            </ul>
+        </div>
+
+    </div>
+</div>
+<%- include('partials/footer'); -%>

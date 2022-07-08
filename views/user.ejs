@@ -14,53 +14,6 @@
       </button>
     </div>
   </form>
-  <!-- <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#changePassword">
-    <i class="fa-solid fa-key"></i> Change password
-  </button>
-  
-  <div class="modal fade" id="changePassword" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header border-bottom-0">
-          <h5 class="modal-title" id="exampleModalLabel">Change password</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <form action="/user/change-password" method="post">
-          <div class="modal-body">
-
-
-            <div class="form-group">
-              <input type="text" class="form-control" id="" value="<%=loginUser.emailLogin%>" name="email" hidden />
-            </div>
-
-            <div class="form-group">
-              <label for="">Enter Your Current Password</label>
-              <input type="password" class="form-control" id="" placeholder="Enter Your Current Password"
-                name="currentPassword" required />
-            </div>
-
-            <div class="form-group">
-              <label for="">Enter Your New Password</label>
-              <input type="password" class="form-control" id="" placeholder="Enter Your New Password"
-                name="newPassword" required />
-            </div>
-
-            <div class="form-group">
-              <label for="">Enter Your New Password Again</label>
-              <input type="password" class="form-control" id="" placeholder="Enter Your New Password Again"
-                name="newPasswordAgain" required />
-            </div>
-          </div>
-          <div class="modal-footer border-top-0 d-flex justify-content-center">
-            <button type="submit" class="btn btn-success">Commit Change</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div> -->
 
   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNewUser">
     <i class="fa-solid fa-plus"></i> New
@@ -119,61 +72,8 @@
     </div>
   </div>
 
-
-
-  <!-- <button type="button" class="btn btn-info" data-toggle="modal" data-target="#changeAvatar">
-    <i class="fa-solid "></i> Change Avatar
-  </button>
-
-
-  <div class="modal fade" id="changeAvatar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header border-bottom-0">
-        <h5 class="modal-title" id="exampleModalLabel">Change Avatar</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <form action="/user/change-avatar" enctype="multipart/form-data" method="post">
-        <div class="modal-body">
-          <div class="form-group">
-            <input type="text" class="form-control" id="" value="<%=loginUser.emailLogin%>" name="email" hidden />
-          </div>
-
-          <div class="form-group">
-            <label for="">Choose image</label>
-            <input type="file" class="form-control" id=""
-              name="avatar" accept='image/*' required  />
-          </div>
-
-        </div>
-        <div class="modal-footer border-top-0 d-flex justify-content-center">
-          <button type="submit" class="btn btn-success">Change</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div> -->
-
-
-
-
-
-
-
-
-
-
 <div class="container-xl px-4 mt-4">
-  <!-- Account page navigation-->
-  <!-- <nav class="nav nav-borders">
-      <a class="nav-link active ms-0" href="https://www.bootdey.com/snippets/view/bs5-edit-profile-account-details" target="__blank">Profile</a>
-      <a class="nav-link" href="https://www.bootdey.com/snippets/view/bs5-profile-billing-page" target="__blank">Billing</a>
-      <a class="nav-link" href="https://www.bootdey.com/snippets/view/bs5-profile-security-page" target="__blank">Security</a>
-      <a class="nav-link" href="https://www.bootdey.com/snippets/view/bs5-edit-notifications-page"  target="__blank">Notifications</a>
-  </nav> -->
+
   <hr class="mt-0 mb-4">
   <div class="row">
       <div class="col-xl-4">
@@ -338,12 +238,8 @@
   </div>
 </div>
 
-
-
-
 <hr>
 <h1>Users in system</h1>
-
 
   <table class="table table-striped table-hover" data-toggle="table" data-search="true">
     <caption>
@@ -369,8 +265,6 @@
       </p>
       <tr>
         <td>
-
-
           <% if (!userData.avatar) { %> 
             <img class="rounded-circle shadow-4" src="../public/images/default.jpg"  style="width: 70px;height: 60px;" alt="">
              <% } else {%>

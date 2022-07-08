@@ -43,7 +43,7 @@ class uploadAvatar {
       else {
         let currentAvatar: any = await db.sequelize.query(`select avatar from users where email="${req.currentUser.getEmail()}"`);
         currentAvatar = currentAvatar[0][0];
-        if (currentAvatar) {
+        if (currentAvatar!= null) {
           fs.unlink(path.join(__dirname, '..', '..', 'public', 'images', `${currentAvatar.avatar}`), (error: any) => {
             if (error) res.status(404).json({
               message: "Remove file fail...",

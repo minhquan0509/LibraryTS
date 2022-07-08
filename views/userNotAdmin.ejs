@@ -5,279 +5,180 @@
 <% if (loginUser.isAdminLogin == false) { %>
 <div class="content container">
   <h1>My Information</h1>
-  
-  
-
-
-  <!-- <table class="table table-striped table-hover" data-toggle="table" data-search="true">
-    <caption>
-      You can change your Information by double clicking in the text
-    </caption>
-    <thead class="thead-dark">
-      <tr>
-        <th scope="col">Avatar</th>
-        <th scope="col">User Email</th>
-        <th scope="col">First Name</th>
-        <th scope="col">Last Name</th>
-        <th scope="col">Address</th>
-        <th scope="col">Phone Number</th>
-        <th scope="col">Is Administration</th>
-        <th scope="col">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% userData.forEach((userData)=>{ %> <%let isAdminOrNot= userData.isAdmin
-        || false; %>
-      <p>
-        <%isAdminOrNot=(!isAdminOrNot)||(userData.email==loginUser.emailLogin);%>
-      </p>
-      <tr>
-        <td>
-          <img src="../public/images/<%= userData.avatar %>" class="rounded-circle shadow-4" style="width: 70px;height: 60px;" alt="Avatar" />
-        </td>
-        <td class="edit" contenteditable="false" id="userEmail_<%= userData.email %>">
-          <%= userData.email %>
-        </td>
-        <td class="edit" contenteditable="<%=isAdminOrNot%>" id="userFirstName_<%= userData.email %>">
-          <%= userData.firstName %>
-        </td>
-        <td class="edit" contenteditable="<%=isAdminOrNot%>" id="userLastName_<%= userData.email %>">
-          <%= userData.lastName %>
-        </td>
-        <td class="edit" contenteditable="<%=isAdminOrNot%>" id="userAddress_<%= userData.email %>">
-          <%= userData.address %>
-        </td>
-        <td class="edit" contenteditable="<%=isAdminOrNot%>" id="userPhoneNumber_<%= userData.email %>">
-          <%= userData.phoneNumber %>
-        </td>
-        <td class="edit" contenteditable="false" id="userIsAdmin_<%= userData.email %>">
-          <%= userData.isAdmin %>
-        </td>
-        <td>
-          <% if (isAdminOrNot) { %>
-          <button class="btn btn-success btn-save" id="saveBtn_<%=userData.email%>">
-            Edit
-          </button>
-
-          <% } %>
-        </td>
-      </tr>
-      <%}); %>
-    </tbody>
-  </table> -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   <% userData.forEach((userData)=>{ %> <%let isAdminOrNot= userData.isAdmin|| false; %>
 
-    <p>
-      <%isAdminOrNot=(!isAdminOrNot)||(userData.email==loginUser.emailLogin);%>
-    </p>
+  <p>
+    <%isAdminOrNot=(!isAdminOrNot)||(userData.email==loginUser.emailLogin);%>
+  </p>
 
   <div class="container-xl px-4 mt-4">
-    <!-- Account page navigation-->
-    <!-- <nav class="nav nav-borders">
-        <a class="nav-link active ms-0" href="https://www.bootdey.com/snippets/view/bs5-edit-profile-account-details" target="__blank">Profile</a>
-        <a class="nav-link" href="https://www.bootdey.com/snippets/view/bs5-profile-billing-page" target="__blank">Billing</a>
-        <a class="nav-link" href="https://www.bootdey.com/snippets/view/bs5-profile-security-page" target="__blank">Security</a>
-        <a class="nav-link" href="https://www.bootdey.com/snippets/view/bs5-edit-notifications-page"  target="__blank">Notifications</a>
-    </nav> -->
+
     <hr class="mt-0 mb-4">
     <div class="row">
-        <div class="col-xl-4">
-            <!-- Profile picture card-->
-            <div class="card mb-4 mb-xl-0">
-                <div class="card-header">Profile Picture</div>
-                <div class="card-body text-center">
-                    <!-- Profile picture image-->
-                    <img class="img-account-profile rounded-circle mb-2" src="../public/images/<%= userData.avatar %>" alt="">
-                    <!-- Profile picture help block-->
-                    <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
-                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#changeAvatar">
-                      <i class="fa-solid "></i> Change Avatar
+      <div class="col-xl-4">
+        <!-- Profile picture card-->
+        <div class="card mb-4 mb-xl-0">
+          <div class="card-header">Profile Picture</div>
+          <div class="card-body text-center">
+            <!-- Profile picture image-->
+            <img class="img-account-profile rounded-circle mb-2" src="../public/images/<%= userData.avatar %>" alt="">
+            <!-- Profile picture help block-->
+            <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
+            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#changeAvatar">
+              <i class="fa-solid "></i> Change Avatar
+            </button>
+
+
+            <div class="modal fade" id="changeAvatar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+              aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header border-bottom-0">
+                    <h5 class="modal-title" id="exampleModalLabel">Change Avatar</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
                     </button>
-                  
-                  
-                    <div class="modal fade" id="changeAvatar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                      <div class="modal-content">
-                        <div class="modal-header border-bottom-0">
-                          <h5 class="modal-title" id="exampleModalLabel">Change Avatar</h5>
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                        </div>
-                        <form action="/user/change-avatar" enctype="multipart/form-data" method="post">
-                          <div class="modal-body">
-                            <div class="form-group">
-                              <input type="text" class="form-control" id="" value="<%=loginUser.emailLogin%>" name="email" hidden />
-                            </div>
-                  
-                            <div class="form-group">
-                              <label for="">Choose image</label>
-                              <input type="file" class="form-control" id=""
-                                name="avatar" accept='image/*' required  />
-                            </div>
-                  
-                          </div>
-                          <div class="modal-footer border-top-0 d-flex justify-content-center">
-                            <button type="submit" class="btn btn-success">Change</button>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
                   </div>
-
-
-
-                  <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#changePassword">
-                    <i class="fa-solid fa-key"></i> Change password
-                  </button>
-                  <!-- Modal -->
-                  <div class="modal fade" id="changePassword" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                      <div class="modal-content">
-                        <div class="modal-header border-bottom-0">
-                          <h5 class="modal-title" id="exampleModalLabel">Change password</h5>
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                        </div>
-                        <form action="/user/change-password" method="post">
-                          <div class="modal-body">
-                            <div class="form-group">
-                              <input type="text" class="form-control" id="" value="<%=loginUser.emailLogin%>" name="email" hidden />
-                            </div>
-                
-                            <div class="form-group">
-                              <label for="">Enter Your Current Password</label>
-                              <input type="password" class="form-control" id="" placeholder="Old Password"
-                                name="currentPassword" required />
-                            </div>
-                
-                            <div class="form-group">
-                              <label for="">Enter Your New Password</label>
-                              <input type="password" class="form-control" id="" placeholder="New Password"
-                                name="newPassword" required />
-                            </div>
-                
-                            <div class="form-group">
-                              <label for="">Enter Your New Password Again</label>
-                              <input type="password" class="form-control" id="" placeholder="Re-enter New Password"
-                                name="newPasswordAgain" required />
-                            </div>
-                          </div>
-                          <div class="modal-footer border-top-0 d-flex justify-content-center">
-                            <button type="submit" class="btn btn-success">Commit Change</button>
-                          </div>
-                        </form>
+                  <form action="/user/change-avatar" enctype="multipart/form-data" method="post">
+                    <div class="modal-body">
+                      <div class="form-group">
+                        <input type="text" class="form-control" id="" value="<%=loginUser.emailLogin%>" name="email"
+                          hidden />
                       </div>
+
+                      <div class="form-group">
+                        <label for="">Choose image</label>
+                        <input type="file" class="form-control" id="" name="avatar" accept='image/*' required />
+                      </div>
+
                     </div>
-                  </div>
-                
-
-
+                    <div class="modal-footer border-top-0 d-flex justify-content-center">
+                      <button type="submit" class="btn btn-success">Change</button>
+                    </div>
+                  </form>
                 </div>
+              </div>
             </div>
+
+            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#changePassword">
+              <i class="fa-solid fa-key"></i> Change password
+            </button>
+            <!-- Modal -->
+            <div class="modal fade" id="changePassword" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+              aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header border-bottom-0">
+                    <h5 class="modal-title" id="exampleModalLabel">Change password</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <form action="/user/change-password" method="post">
+                    <div class="modal-body">
+                      <div class="form-group">
+                        <input type="text" class="form-control" id="" value="<%=loginUser.emailLogin%>" name="email"
+                          hidden />
+                      </div>
+
+                      <div class="form-group">
+                        <label for="">Enter Your Current Password</label>
+                        <input type="password" class="form-control" id="" placeholder="Old Password"
+                          name="currentPassword" required />
+                      </div>
+
+                      <div class="form-group">
+                        <label for="">Enter Your New Password</label>
+                        <input type="password" class="form-control" id="" placeholder="New Password" name="newPassword"
+                          required />
+                      </div>
+
+                      <div class="form-group">
+                        <label for="">Enter Your New Password Again</label>
+                        <input type="password" class="form-control" id="" placeholder="Re-enter New Password"
+                          name="newPasswordAgain" required />
+                      </div>
+                    </div>
+                    <div class="modal-footer border-top-0 d-flex justify-content-center">
+                      <button type="submit" class="btn btn-success">Commit Change</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+          </div>
         </div>
-        <div class="col-xl-8">
-            <!-- Account details card-->
-            <div class="card mb-4">
-                <div class="card-header">Account Details</div>
-                <div class="card-body">
-                    
-                        <!-- Form Group (username)-->
-                        <div class="mb-3">
-                            <label class="small mb-1" for="inputUsername">Username (how your name will appear to other users on the site)</label>
-                            <!-- <input class="form-control" id="inputUsername" type="text" placeholder="Enter your username" value="username"> -->
-                            <input class="form-control" readonly id="userEmail_<%= userData.email %>" type="text" placeholder="UserName" value="<%= userData.email %>">
-                            <!-- <td class="edit" contenteditable="false" id="userEmail_<%= userData.email %>">
+      </div>
+      <div class="col-xl-8">
+        <!-- Account details card-->
+        <div class="card mb-4">
+          <div class="card-header">Account Details</div>
+          <div class="card-body">
+
+            <!-- Form Group (username)-->
+            <div class="mb-3">
+              <label class="small mb-1" for="inputUsername">Username (how your name will appear to other users on the
+                site)</label>
+              <!-- <input class="form-control" id="inputUsername" type="text" placeholder="Enter your username" value="username"> -->
+              <input class="form-control" readonly id="userEmail_<%= userData.email %>" type="text"
+                placeholder="UserName" value="<%= userData.email %>">
+              <!-- <td class="edit" contenteditable="false" id="userEmail_<%= userData.email %>">
                               <%= userData.email %>
                             </td> -->
-                        </div>
-                        <!-- Form Row-->
-                        <div class="row gx-3 mb-3">
-                            <!-- Form Group (first name)-->
-                            <div class="col-md-6">
-                                <label class="small mb-1" for="inputFirstName">First name</label>
-                                <input class="form-control" id="userFirstName_<%= userData.email %>" type="text" placeholder="Enter your first name" value="<%= userData.firstName %>">
-                            </div>
-                            <!-- Form Group (last name)-->
-                            <div class="col-md-6">
-                                <label class="small mb-1" for="inputLastName">Last name</label>
-                                <input class="form-control" id="userLastName_<%= userData.email %>" type="text" placeholder="Enter your last name" value="<%= userData.lastName %>">
-                            </div>
-                        </div>
-                        <!-- Form Row        -->
-          
-                        <!-- Form Group (email address)-->
-                        <div class="mb-3">
-                            <label class="small mb-1" for="inputEmailAddress">Address</label>
-                            <input class="form-control" id="userAddress_<%= userData.email %>" type="text" placeholder="Enter your address" value="<%= userData.address %>">
-                        </div>
-                        <!-- Form Row-->
-                        <div class="row gx-3 mb-3">
-                            <!-- Form Group (phone number)-->
-                            <div class="col-md-6">
-                                <label class="small mb-1" for="inputPhone">Phone number</label>
-                                <input class="form-control" id="userPhoneNumber_<%= userData.email %>" type="tel" placeholder="Enter your phone number" value="<%= userData.phoneNumber %>">
-                            </div>
-                            <!-- Form Group (birthday)-->
-                            <div class="col-md-6">
-                                <label class="small mb-1" for="inputBirthday">Is Admin</label>
-                                <input class="form-control" readonly id="userIsAdmin_<%= userData.email %>" type="text" name="birthday" placeholder="Is Admin" value="<%= userData.isAdmin %>">
-                            </div>
-                        </div>
-                        <!-- Save changes button-->
-                        <!-- <button class="btn btn-primary" type="button">Save changes</button> -->
-                        <button class="btn btn-success btn-save" id="saveBtn_<%=userData.email%>">
-                          Save change
-                        </button>
-
-                    
-                </div>
             </div>
+            <!-- Form Row-->
+            <div class="row gx-3 mb-3">
+              <!-- Form Group (first name)-->
+              <div class="col-md-6">
+                <label class="small mb-1" for="inputFirstName">First name</label>
+                <input class="form-control" id="userFirstName_<%= userData.email %>" type="text"
+                  placeholder="Enter your first name" value="<%= userData.firstName %>">
+              </div>
+              <!-- Form Group (last name)-->
+              <div class="col-md-6">
+                <label class="small mb-1" for="inputLastName">Last name</label>
+                <input class="form-control" id="userLastName_<%= userData.email %>" type="text"
+                  placeholder="Enter your last name" value="<%= userData.lastName %>">
+              </div>
+            </div>
+            <!-- Form Row        -->
+            <!-- Form Group (email address)-->
+            <div class="mb-3">
+              <label class="small mb-1" for="inputEmailAddress">Address</label>
+              <input class="form-control" id="userAddress_<%= userData.email %>" type="text"
+                placeholder="Enter your address" value="<%= userData.address %>">
+            </div>
+            <!-- Form Row-->
+            <div class="row gx-3 mb-3">
+              <!-- Form Group (phone number)-->
+              <div class="col-md-6">
+                <label class="small mb-1" for="inputPhone">Phone number</label>
+                <input class="form-control" id="userPhoneNumber_<%= userData.email %>" type="tel"
+                  placeholder="Enter your phone number" value="<%= userData.phoneNumber %>">
+              </div>
+              <!-- Form Group (birthday)-->
+              <div class="col-md-6">
+                <label class="small mb-1" for="inputBirthday">Is Admin</label>
+                <input class="form-control" readonly id="userIsAdmin_<%= userData.email %>" type="text" name="birthday"
+                  placeholder="Is Admin" value="<%= userData.isAdmin %>">
+              </div>
+            </div>
+            <!-- Save changes button-->
+            <!-- <button class="btn btn-primary" type="button">Save changes</button> -->
+            <button class="btn btn-success btn-save" id="saveBtn_<%=userData.email%>">
+              Save change
+            </button>
+
+
+          </div>
         </div>
+      </div>
     </div>
-</div>
+  </div>
 
-<%}); %>
-
-
-
-
-
-
+  <%}); %>
 </div>
 
 <script src="/js/editUser1.js"></script>

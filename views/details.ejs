@@ -9,7 +9,7 @@
 
         <div class="col-md-4">
         <form action="/books/edit" method="post">
-            <small>Author: <%= book.author %></small>
+            <small>Author: <a href="/author/<%= book.author %>"><%= book.author %></a></small>
             <h3 class="my-3">Book Description</h3>
             <p><%= book.description %></p>
             <div class="form-group col-md-6">
@@ -20,7 +20,7 @@
             <% if(isAdmin === true ){ %>
             <button type="submit" class="btn btn-primary mt-4">Save</button>
             <%}%>
-
+            </form>
         </div>
 
     </div>
