@@ -12,6 +12,12 @@ class authorController{
 
     public details = async (req: Request, res: Response) => {
         // console.log(req.params.authorName);
+        let isAdmin: boolean;
+            if (req.cookies.user) {
+                if (req.cookies.user.isAdmin === true) {
+                    isAdmin = true;
+                } else isAdmin = false;
+            } else isAdmin = false;
         const author = await Author.findOne({
             where: {
                 authorName: req.params.authorName
@@ -25,7 +31,7 @@ class authorController{
         if(!author){
             return res.render('404notFound');
         }
-        return res.render('authorDetails', {author, books});
+        return res.render('authorDetails', {author, books, isAdmin});
     }
 }
 

@@ -9,10 +9,10 @@ import db from "../config/db";
 const path = require('path');
 const fs = require('fs');
 
-class uploadAvatar {
+class uploadAuthorAvatar {
   storage = multer.diskStorage({
     destination: (req: Request, file: any, callBack: any) => {
-      callBack(null, path.join(__dirname, '..', '..', 'public', 'images', 'userImages'));  //The directory that save an avatar
+      callBack(null, path.join(__dirname, '..', '..', 'public', 'images', 'authorImages'));  //The directory that save an avatar
     },
     filename: (req: Request, file: any, callBack: any) => {
       callBack(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
@@ -35,24 +35,24 @@ class uploadAvatar {
     fileFilter: this.fileFilter
   });
 
-  changeAvatar = async (req: Request, res: Response) => {
+  changeAuthorAvatar = async (req: Request, res: Response) => {
     try {
       if (!req.file) res.status(404).json({
         message: "Image not uploaded..."
       })
       else {
-        let currentAvatar: any = await db.sequelize.query(`select avatar from users where email="${req.currentUser.getEmail()}"`);
+        let currentAvatar: any = await db.sequelize.query(`select authorAvatar from authors where authorName="${req.body.authorName}"`);
         currentAvatar = currentAvatar[0][0];
-        if (currentAvatar.avatar) {
-          fs.unlink(path.join(__dirname, '..', '..', 'public', 'images', 'userImages', `${currentAvatar.avatar}`), (error: any) => {
+        if (currentAvatar.authorAvatar) {
+          fs.unlink(path.join(__dirname, '..', '..', 'public', 'images', 'authorImages', `${currentAvatar.authorAvatar}`), (error: any) => {
             if (error) res.status(404).json({
               message: "Remove file fail...",
               error
             })
           })
         }
-        await db.sequelize.query(`update users set avatar='${req.file.filename}' where email='${req.currentUser.getEmail()}'`);
-        res.redirect("/user");
+        await db.sequelize.query(`update authors set authorAvatar='${req.file.filename}' where authorName="${req.body.authorName}"`);
+        res.redirect("/author");
       }
     } catch (error) {
       res.status(404).json({
@@ -61,5 +61,6 @@ class uploadAvatar {
       })
     }
   }
+
 }
-export = new uploadAvatar
+export = new uploadAuthorAvatar

@@ -1,16 +1,18 @@
-import {Application, Request, Response} from 'express';
+import { Application, Request, Response } from 'express';
 import { Sequelize, DataTypes, Model, Op } from "sequelize";
 import db from "../config/db"
 import Book from '../models/Book'
-class bookController{
+import path from 'path';
+import multer from 'multer';
+class bookController {
     public books = async (req: Request, res: Response) => {
         try {
-            
+
             let data = await Book.findAll();
             // data.forEach((element: any) => console.log((element as Book).getTitle()));
             // const book = new Book({ISBN: 4, title: 'Tenki no ko', author: 'Shinkai Makoto', description: '', numOfCopies: 4, imageLink: ''})
-            
-            res.render('book',{data: data});
+
+            res.render('book', { data: data });
         } catch (error) {
             res.send(error);
         }
@@ -19,13 +21,13 @@ class bookController{
     public render = async (req: Request, res: Response) => {
         try {
             let isAdmin: boolean;
-            if(req.cookies.user){
-                if(req.cookies.user.isAdmin === true) {
+            if (req.cookies.user) {
+                if (req.cookies.user.isAdmin === true) {
                     isAdmin = true;
                 } else isAdmin = false;
             } else isAdmin = false;
             // console.log('user is admin? ' + req.cookies.user.isAdmin);
-            
+
             let book = await Book.findByPk(req.params.ISBN);
             if(!book){
                 return res.render('404notFound');
@@ -36,22 +38,22 @@ class bookController{
         }
     }
 
-    public create = (req: Request, res: Response) =>{
+    public create = (req: Request, res: Response) => {
         res.render('createBook');
     }
 
-    public createBook = async (req: Request, res: Response) =>{
-        try {     
+    public createBook = async (req: Request, res: Response) => {
+        try {
             const book = await Book.create({
                 ISBN: req.body.ISBN,
                 title: req.body.title,
                 author: req.body.author,
                 description: req.body.description,
                 numOfCopies: req.body.numOfCopies,
-                imageLink: req.body.imageLink,
+                imageLink: `${req.file.filename}`,
                 status: req.body.status,
             });
-            
+
             res.redirect('/books');
         } catch (error) {
             res.send(error);
@@ -59,7 +61,7 @@ class bookController{
     }
 
     public searchBook = async (req: Request, res: Response) => {
-        try {         
+        try {
             const search = req.query.search;
             const data = await Book.findAll({
                 // where:{
@@ -68,7 +70,7 @@ class bookController{
                 //     }
                 // }
                 //where title like '%search% or author like '%search%' or description like '%search%'
-                where:{
+                where: {
                     [Op.or]: [
                         {
                             title: {
@@ -86,16 +88,16 @@ class bookController{
                             }
                         }
                     ]
-                    
+
                 }
             })
-            res.status(200).render('book',{data});
+            res.status(200).render('book', { data });
         } catch (error) {
             res.send(error);
         }
     }
 
-    public edit = async(req: Request, res: Response) => {
+    public edit = async (req: Request, res: Response) => {
         try {
             const numOfCopies = req.body.numOfCopies;
             await db.sequelize.query(`UPDATE books set numOfCopies = ${numOfCopies} where ISBN = ${req.body.ISBN}`)
