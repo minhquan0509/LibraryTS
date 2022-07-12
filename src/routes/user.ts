@@ -1,9 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const userController = require("../controllers/userController");
-const middlewareController = require("../controllers/middlewareController");
-const uploadAvatarController = require("../controllers/uploadAvatarController");
-
+import userController from '../controllers/userController'
+import middlewareController from '../controllers/middlewareController'
+import uploadAvatarController from '../controllers/uploadAvatarController'
 
 router.get("/", middlewareController.verifyToken, userController.getHomePageUser);
 router.post('/change-password', middlewareController.verifyToken, userController.changePassword)

@@ -134,14 +134,15 @@ class BorrowController {
     delete = async (req: Request, res: Response) => {
         try {
             const loan = await Loan.findOne({
-                attributes: ['ISBN'],
+                // attributes: ['ISBN'],
                 where: {
                     ID: req.params.loanID
                 }
             })
             const ISBN = loan?.getISBN();
-            console.log(ISBN);
-            await db.sequelize.query(`UPDATE books set numOfCopies = numOfCopies + 1 where ISBN = ${ISBN}`);
+            if(loan?.getStatus() !== 'done'){
+                await db.sequelize.query(`UPDATE books set numOfCopies = numOfCopies + 1 where ISBN = ${ISBN}`);
+            }
             await Loan.destroy({
                 where: {
                     ID: req.params.loanID

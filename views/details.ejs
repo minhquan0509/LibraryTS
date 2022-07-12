@@ -28,6 +28,15 @@
                 <label for="inputStatus">Quantity</label>
                 <input type="number" class="form-control" value="<%= book.numOfCopies %>" name="numOfCopies" min="0">
             </div>
+            <% if(book.numOfCopies > 0 ){ %>
+                <div class="alert alert-success w-25" role="alert">
+                    Available
+                </div>
+            <%} else {%> 
+                <div class="alert alert-danger w-25" role="alert">
+                    Out of stocked!
+                </div>
+            <%}%>
             <input type="text" name="ISBN" id="" value="<%= book.ISBN %>" class="d-none" >
             <% if(isAdmin === true ){ %>
             <button type="submit" class="btn btn-primary mt-4">Save</button>

@@ -27,7 +27,10 @@ class bookController{
             // console.log('user is admin? ' + req.cookies.user.isAdmin);
             
             let book = await Book.findByPk(req.params.ISBN);
-            res.render('details',{book, isAdmin});
+            if(!book){
+                return res.render('404notFound');
+            }
+            return res.render('details',{book, isAdmin});
         } catch (error) {
             res.send(error);
         }

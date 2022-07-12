@@ -6,7 +6,7 @@ const saveButtons = document.querySelectorAll('.btn-save');
         const loan = {
           ID: ID,
           userEmail: document.getElementById(`userEmail_${ID}`).innerText,
-          bookID: document.getElementById(`bookID_${ID}`).innerText,
+          ISBN: document.getElementById(`ISBN_${ID}`).innerText,
           issueDate: document.getElementById(`issueDate_${ID}`).value,
           dueDate: document.getElementById(`dueDate_${ID}`).value,
           returnDate: document.getElementById(`returnDate_${ID}`).value,

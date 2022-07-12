@@ -22,7 +22,10 @@ class authorController{
                 author: req.params.authorName
             }
         })
-        res.render('authorDetails', {author, books});
+        if(!author){
+            return res.render('404notFound');
+        }
+        return res.render('authorDetails', {author, books});
     }
 }
 
