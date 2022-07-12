@@ -14,26 +14,26 @@ class Author extends Model {
     //     this.DOB = DOB;
     //     this.death = death;
     // }
-    public getName(){
+    public getName() {
         return this.authorName;
     }
 
-    public getNationality(){
+    public getNationality() {
         return this.nationality;
     }
 
-    public getDOB(){
+    public getDOB() {
         return this.DOB;
     }
 
-    public getDeath(){
+    public getDeath() {
         return this.DOB;
     }
 }
 
 Author.init({
     // Model attributes are defined here
-    ID:{
+    ID: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
@@ -54,13 +54,17 @@ Author.init({
         type: DataTypes.INTEGER,
         defaultValue: 0
     },
+    authorAvatar: {
+        type: DataTypes.STRING,
+        defaultValue: ''
+    },
 }, {
     // Other model options go here
     sequelize: db.sequelize, // We need to pass the connection instance
     modelName: 'Author', // We need to choose the model name
     createdAt: false,
 
-  // If don't want updatedAt
+    // If don't want updatedAt
     updatedAt: false,
 });
 

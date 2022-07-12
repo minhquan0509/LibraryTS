@@ -3,11 +3,65 @@
     <h1 class="my-4"><%= author.authorName %></h1>
     <div class="row">
 
+
+        
         <div class="col-md-6">
             <img class="img-fluid" src="" alt="">
-            <small>Author image</small>
-            <p>Author's bio</p>
+            <!-- <small>Author image</small> -->
+            <div class="card" style="width: 18rem;">
+
+                <% if (!author.authorAvatar) { %> 
+                    <img src="../public/images/authorImages/defaultAuthor.jpg" class="card-img-top h-100 w-100" alt="..." style="object-fit: cover">
+                     <% } else {%>
+                      <img src="../public/images/authorImages/<%=author.authorAvatar%>" class="card-img-top h-100 w-100" alt="..." style="object-fit: cover">
+                  <%}%>
+                
+                <div class="card-body">
+                  <h5 class="card-title">Author's biography</h5>
+                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                  <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+
+
+                  
+                  <button type="button" class="btn btn-info" data-toggle="modal" data-target="#changeAvatar">
+                    <i class="fa-solid "></i> Change Avatar
+                  </button>
+        
+        
+                  <div class="modal fade" id="changeAvatar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header border-bottom-0">
+                          <h5 class="modal-title" id="exampleModalLabel">Change Avatar</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <form action="/author/avatar" enctype="multipart/form-data" method="post">
+                          <div class="modal-body">
+                            
+                            <input type="text" value="<%= author.authorName %>" name="authorName" hidden>
+
+                            <div class="form-group">
+                              <label for="">Choose image</label>
+                              <input type="file" class="form-control" id="" name="authorAvatar" accept='image/*' required />
+                            </div>
+        
+                          </div>
+                          <div class="modal-footer border-top-0 d-flex justify-content-center">
+                            <button type="submit" class="btn btn-success">Change</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+
+
+                </div>
+              </div>
         </div>
+
 
         <div class="col-md-4">
             <h3 class="my-3">Author of books:</h3>
@@ -33,4 +87,10 @@
 
     </div>
 </div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+  integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+  integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <%- include('partials/footer'); -%>

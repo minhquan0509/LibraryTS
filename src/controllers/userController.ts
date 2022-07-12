@@ -134,6 +134,9 @@ class userController {
   deleteUser = async (req: Request, res: Response) => {
     try {
       if (req.currentUser.getIsAdmin()) req.currentUser.deleteUser(req);
+      if (req.body.email === req.currentUser.getEmail()) {
+        res.redirect('/auth/login');
+      }
       res.redirect("/user");
     } catch (error) {
       res.status(400).json({
