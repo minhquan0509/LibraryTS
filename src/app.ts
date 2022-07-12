@@ -11,7 +11,7 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static('public'));
-app.use('/public/', express.static('./public'));
+app.use('/public/images', express.static('./public/images'));
 
 db.connect();
 router.route(app);
